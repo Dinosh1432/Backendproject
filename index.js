@@ -7,10 +7,10 @@ const Firmroutes=require("./routes/Firmroutes")
 const productRoutes=require("./routes/productRoutes")
 const app=express()
 const path=require("path")
-
+const cors=require("cors");
 const PORT=process.env.PORT||4000;
 dotenv.config();
-
+app.use(cors());
 mongoose.connect(process.env.MONGO_URI)
 .then(()=>{console.log("monoDB successfully conected ")})
 .catch((err)=>{console.log(err)})
@@ -27,5 +27,5 @@ app.listen(PORT,()=>{
 })
 
 app.use("/",(req,res)=>{
-    res.send("<h1>welcome to SUBY</h1>")
+    res.send("<h1>welcome to SUBY</h1>");
 })

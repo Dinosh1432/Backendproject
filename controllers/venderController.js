@@ -7,8 +7,8 @@ dotenv.config()
 const venderRegister=async(req,res)=>{
     const {username,email,password}=req.body
     try{
-        const vendoremil=await Vendor.findOne({email});
-        if(vendoremil){
+        const vendoremail=await Vendor.findOne({email});
+        if(vendoremail){
             return res.status(400).json("email already taken")       
         }
             const hashedpassword=await bcrypt.hash(password,10);

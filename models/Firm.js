@@ -1,7 +1,7 @@
 const mongoose=require("mongoose")
 
 const firmSchema=new mongoose.Schema({
-    firmname:{
+    firmName:{
         type:String,
         required:true,
         unique:true
@@ -28,7 +28,7 @@ const firmSchema=new mongoose.Schema({
         ]
     },
     offer:{
-        type:String,
+        type:String
     },
     image:{
         type:String
@@ -46,7 +46,6 @@ const firmSchema=new mongoose.Schema({
         }
     ]
 })
-
 
 const Firm=mongoose.model("Firm",firmSchema);
 module.exports=Firm

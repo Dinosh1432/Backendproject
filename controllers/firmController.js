@@ -3,7 +3,7 @@ const Vendor=require("../models/Vendor")
 const multer=require("multer")
 const path=require("path")
 const storage=multer.diskStorage({
-    destination:function(req,res,cb){
+    destination:function(req,file,cb){
         cb(null,'uploads/');
     },
     filename:function(req,file,cb){
@@ -14,7 +14,8 @@ const upload=multer({storage:storage})
 
 const addFirm=async(req,res)=>{
     try{
-    const {firmname,area,category,region,offer}=req.body
+    const {firmName,area,category,region,offer}=req.body
+    console.log(req.body)
     const image=req.file?req.file.filename:undefined
     const vendor=await Vendor.findById(req.vendorId)
         if(!vendor){
@@ -22,7 +23,7 @@ const addFirm=async(req,res)=>{
         }
     const firms=new Firm({
         
-        firmname,area,category,region,offer,image,vendor:vendor._id
+        firmName,area,category,region,offer,image,vendor:vendor._id
     });
     const savedFirm=await firms.save();
     vendor.firm.push(savedFirm)
@@ -48,5 +49,4 @@ const deleteFirmById=async(req,res)=>{
             res.status(500).json({error:"internal server error"})
         }
 }
-
-module.exports={addFirm:[upload.single('image'),addFirm],deleteFirmById}
+module.exports={addFirm:[upload.single('firmImage'),addFirm],deleteFirmById}
