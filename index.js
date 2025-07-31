@@ -12,9 +12,8 @@ const PORT=process.env.PORT||4000;
 dotenv.config();
 app.use(cors());
 mongoose.connect(process.env.MONGO_URI)
-.then(()=>{console.log("monoDB successfully conected ")})
+.then(()=>{console.log("mongoDB successfully conected ")})
 .catch((err)=>{console.log(err)})
-
 app.use(bodyparser.json())
 
 app.use('/vendor',venderRoutes)

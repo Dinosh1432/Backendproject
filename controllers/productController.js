@@ -2,7 +2,7 @@ const Firm=require("../models/Firm");
 const Product = require("../models/Product");
 const Vendor=require("../models/Vendor");
 const multer=require("multer");
-const path=require("path")
+const path=require("path");
 
 const storage=multer.diskStorage({
     destination:function(req,res,cb){
@@ -52,7 +52,7 @@ const getProductByFirm=async(req,res)=>{
     if(!product){
         return res.status(404).json({error:"product not found"})
     }
-    res.status(200).json(product)
+    res.status(200).json({product})
 }
 
 const deleteProductById=async(req,res)=>{

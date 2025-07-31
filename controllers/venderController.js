@@ -33,9 +33,8 @@ try{
         return res.status(401).json({error:"invalid credentials"})
     }
     const token=jwt.sign({vendorId:vendor._id,vendor},process.env.secretKey,{expiresIn:"1h"})
-
-    return res.status(200).json({sucess:"login sucessfully",token})
-
+    const vendorId=vendor._id
+    return res.status(200).json({sucess:"login sucessfully",token,vendorId})
 }catch(error){
     console.log(error)
 }
@@ -51,18 +50,21 @@ const getAllVendors=async(req,res)=>{
     }
 }
 
-const getVendorById=async(req,res)=>{
-    const vendorId=req.params.id;
-    try{
-        const vendor=await Vendor.findById(vendorId)
-        if(!vendor){
-            res.status(401).json({error:"vendor not found"})
-        }
-        res.json({vendor})
+const getVendorById = async (req, res) => {
+  const vendorId = req.params.id;
+  try {
+    const vendor = await Vendor.findById(vendorId).populate('firm');
+    if (!vendor) {
+      return res.status(404).json({ error: "Vendor not found" });
     }
-    catch(error){
-        res.status(500).json({error:"internel servel error"})
-    }
-}
+
+    const vendorFirmId = vendor.firm[0]._id; // optional chaining!
+    if (vendorFirmId) {
+      return res.status(200).json({ vendor, vendorId, vendorFirmId });
+  } 
+}catch (error) {
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
 
 module.exports={venderRegister,vendorLogin,getAllVendors,getVendorById}
