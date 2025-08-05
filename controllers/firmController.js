@@ -26,7 +26,6 @@ const addFirm=async(req,res)=>{
             return res.status(400).json({message:"please add limited firms"})
         }
     const firms=new Firm({
-        
         firmName,area,category,region,offer,image,vendor:vendor._id
     });
     const savedFirm=await firms.save();
@@ -54,4 +53,4 @@ const deleteFirmById=async(req,res)=>{
             res.status(500).json({error:"internal server error"})
         }
 }
-module.exports={addFirm:[upload.single('firmImage'),addFirm],deleteFirmById}
+module.exports={addFirm:[upload.single('image'),addFirm],deleteFirmById}
