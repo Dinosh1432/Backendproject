@@ -14,12 +14,23 @@ dotenv.config();
 app.use(cors({
   origin: [
     "https://react-suby-backend-dashboard-j8d4whhvr-dinoshs-projects.vercel.app",
-    "http://localhost:4000"
+    "http://localhost:5173"
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
 }));
+
+app.options("*", cors({
+    origin: [
+    "https://react-suby-backend-dashboard-j8d4whhvr-dinoshs-projects.vercel.app",
+    "http://localhost:5173"
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
+}));
+
 
 mongoose.connect(process.env.MONGO_URI)
 .then(()=>{console.log("mongoDB successfully conected ")})
