@@ -3,9 +3,6 @@ const Vendor=require("../models/Vendor")
 const multer=require("multer")
 const path=require("path")
 const upload = require("../cloudinary/upload");
-
-
-
 const addFirm = async (req, res) => {
   try {
     const { firmName, area, category, region, offer } = req.body;

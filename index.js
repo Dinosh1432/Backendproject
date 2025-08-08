@@ -10,7 +10,17 @@ const path=require("path")
 const cors=require("cors");
 const PORT=process.env.PORT||4000;
 dotenv.config();
-app.use(cors());
+
+app.use(cors({
+  origin: [
+    "https://react-suby-backend-dashboard-j8d4whhvr-dinoshs-projects.vercel.app",
+    "http://localhost:4000" // for local testing
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
+}));
+
 mongoose.connect(process.env.MONGO_URI)
 .then(()=>{console.log("mongoDB successfully conected ")})
 .catch((err)=>{console.log(err)})
