@@ -14,7 +14,7 @@ dotenv.config();
 app.use(cors({
   origin: [
     "https://react-suby-backend-dashboard-j8d4whhvr-dinoshs-projects.vercel.app",
-    "http://localhost:4000" // for local testing
+    "http://localhost:4000"
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
