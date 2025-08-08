@@ -19,7 +19,7 @@ app.use(cors({
     "http://localhost:5173" // Local development
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"],
+  allowedHeaders: ["Content-Type", "Authorization", "token"], // ✅ Added token here
   credentials: true
 }));
 
