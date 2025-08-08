@@ -1,51 +1,51 @@
-const express=require("express")
-const dotenv=require("dotenv")
-const mongoose=require("mongoose")
-const bodyparser=require("body-parser")
-const venderRoutes=require("./routes/vendorRoutes")
-const Firmroutes=require("./routes/Firmroutes")
-const productRoutes=require("./routes/productRoutes")
-const app=express()
-const path=require("path")
-const cors=require("cors");
-const PORT=process.env.PORT||4000;
-dotenv.config();
+const express = require("express");
+const dotenv = require("dotenv");
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+const vendorRoutes = require("./routes/vendorRoutes");
+const firmRoutes = require("./routes/Firmroutes");
+const productRoutes = require("./routes/productRoutes");
+const path = require("path");
+const cors = require("cors");
 
+dotenv.config();
+const app = express();
+const PORT = process.env.PORT || 4000;
+
+// ✅ CORS Middleware - must be before routes
 app.use(cors({
   origin: [
-    "https://react-suby-backend-dashboard-j8d4whhvr-dinoshs-projects.vercel.app",
-    "http://localhost:5173"
+    "https://react-suby-backend-dashboard-j8d4whhvr-dinoshs-projects.vercel.app", // Your frontend Vercel URL
+    "http://localhost:5173" // Local development
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
 }));
 
-app.options("*", cors({
-    origin: [
-    "https://react-suby-backend-dashboard-j8d4whhvr-dinoshs-projects.vercel.app",
-    "http://localhost:5173"
-  ],
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true
-}));
+// ✅ Middleware
+app.use(bodyParser.json());
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-
-mongoose.connect(process.env.MONGO_URI)
-.then(()=>{console.log("mongoDB successfully conected ")})
-.catch((err)=>{console.log(err)})
-app.use(bodyparser.json())
-
-app.use('/vendor',venderRoutes)
-app.use('/firm',Firmroutes)
-app.use("/product",productRoutes)
-app.use("/uploads",express.static("uploads"));
-
-app.listen(PORT,()=>{
-    console.log(`server started in ${PORT}`)
+// ✅ MongoDB Connection
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
 })
+.then(() => console.log("✅ MongoDB successfully connected"))
+.catch(err => console.error("❌ MongoDB connection error:", err));
 
-app.use("/",(req,res)=>{
-    res.send("<h1>welcome to SUBY</h1>");
-})
+// ✅ Routes
+app.use("/vendor", vendorRoutes);
+app.use("/firm", firmRoutes);
+app.use("/product", productRoutes);
+
+// ✅ Base Route
+app.get("/", (req, res) => {
+  res.send("<h1>Welcome to SUBY API</h1>");
+});
+
+// ✅ Start Server
+app.listen(PORT, () => {
+  console.log(`🚀 Server started on port ${PORT}`);
+});
